@@ -26,7 +26,7 @@ include_once("../../assets/static_pages/khr_page_top.php");
 <ul>
 <li> <a href="https://github.khronos.org/KTX-Specification/">KTX v2.0 specification
     draft</a> (linked from KTX-Specification repo until release.)
-<li> <a href="specs/1.0/index.html">KTX v1.0 specification</a> (updated
+<li> <a href="specs/1.0/ktxspec_v1.html">KTX v1.0 specification</a> (updated
     March 20th 2021 with official logos). </li>
 </ul>
 
