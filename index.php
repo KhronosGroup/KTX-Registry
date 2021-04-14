@@ -19,18 +19,26 @@ include_once("../../assets/static_pages/khr_page_top.php");
     <a href="../dataformat">Khronos Data Format Specification Registry</a> useful
     for dealing with the Data Format Descriptor part of KTX v2.0.
 
-<h4> KTX File Format Specifications </h4>
+<h4> KTX File Format Specifications</h4>
 
 <p> The current version of KTX is KTX v2.0. </p>
 
 <ul>
-<li> <a href="https://github.khronos.org/KTX-Specification/">KTX v2.0 specification
-    draft</a> (linked from KTX-Specification repo until release.)
-<li> <a href="specs/1.0/ktxspec_v1.html">KTX v1.0 specification</a> (updated
-    March 20th 2021 with official logos). </li>
+<li><a href="specs/2.0/ktxspec_v2.html">KTX v2.0 specification</a> released
+    April 20th 2021.</li>
+<li><a href="specs/1.0/ktxspec_v1.html">KTX v1.0 specification</a> (updated
+    March 20th 2021 with official logos).</li>
 </ul>
 
-<h6> Technical Notes and White Papers </h6>
+<h4> KTX Fragment URI Specification</h4>
+The KTX Fragment URI specification describes the syntax for constructing URIs
+to address fragments of a KTX v2 file.
+
+<ul>
+<li><a href="specs/ktx_frag.html">KTX Fragment URI</li>
+</ul>
+
+<h6> Technical Notes and White Papers</h6>
 
 <?php include_once("../../assets/static_pages/khr_page_bottom.php"); ?>
 </body>
