@@ -787,7 +787,7 @@ table.dfdexample tr {
 <div class="details">
 <span id="author" class="author">Mark Callow</span><br>
 <span id="revnumber">version 2.0.0,</span>
-<span id="revdate">2021-04-14</span>
+<span id="revdate">2021-04-18</span>
 </div>
 </div>
 <div id="content">
@@ -1867,8 +1867,9 @@ cubemap arrays this must be 6. For non cubemaps this must be 1.
 Cubemap faces are stored in the order: +X, -X, +Y, -Y, +Z, -Z in a
 left-handed coordinate system with +Y up and, with the +Z face
 forward, +X on the on the right. All faces must have the same
-orientation which must be <code>rd</code> (top-left origin) in the absence of
-<a href="#_ktxorientation">Section 5.2, &#8220;KTXorientation&#8221;</a> metadata. See <a href="#cubemapOrientation">Appendix A, <em>Cubemap Orientation</em></a> for details.</p>
+orientation which must be <code>rd</code> (top-left origin) which is assumed
+in the absence of <a href="#_ktxorientation">Section 5.2, &#8220;KTXorientation&#8221;</a> metadata. See <a href="#cubemapOrientation">Appendix A, <em>Cubemap Orientation</em></a>
+for details.</p>
 </div>
 <div class="paragraph">
 <p>Applications wanting to store incomplete cubemaps should flatten faces
@@ -4994,7 +4995,13 @@ arranged.</p>
 <div class="title">Figure 1. Cubemap Coordinate System</div>
 </div>
 <div class="paragraph">
-<p>If using a skybox to render the cubemap the (s, t, r) coordinates
+<p>If the face orientation is not <code>rd</code>, maintaining compatibility with
+the cube samplers may require changing the relative positions of
+faces, e.g. swapping +Y and -Y faces. To keep things simple <code>rd</code> must
+always be used.</p>
+</div>
+<div class="paragraph">
+<p>If using a skybox to render the cubemap, the (s, t, r) coordinates
 passed to the cubemap sampler need to match the KTX cubemap coordinate
 system, that is left-handed with +Y up, +Z forward and +X on the right.</p>
 </div>
@@ -5013,13 +5020,23 @@ web.</p>
 <p>While Vulkan defaults to a left-handed coordinate system it has +Y
 down, with +Z out of the screen (behind the default view) and +X
 to the right. To transform these skybox coordinates to the cubemap&#8217;s
-coordinate system, either rotate the skybox coordinates 180 degrees
-around the X axis or multiply the Y coordinate by -1. The former
-ensures the +Y face is up and places the +Z face in front of the
-view (in the -Z direction). The latter ensures the +Y face is up
-while placing the +Z face in the +Z direction.  Failure to do one
-of these will result in the cubemap top and bottom faces being
-swapped.</p>
+coordinate system, either</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>multiply both Y and Z by -1 to keep +Y up and place the +Z face
+in -Z direction, or</p>
+</li>
+<li>
+<p>multiply both Y and X by -1 to keep +Y up and place the +Z face
+in +Z direction.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Failure to do one of these will result in the cubemap top and bottom
+faces being swapped.</p>
 </div>
 </div>
 </div>
@@ -23994,7 +24011,7 @@ for (uint32_t block_y = 0; block_y &lt; num_blocks_y; block_y++)
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2021-04-14</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2021-04-18</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Polish abstract. Allow animData for
                                     any kind of array texture. Add
                                     VK_EXT_4444 formats to mapping.
@@ -24027,7 +24044,7 @@ conflicts.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.0<br>
-Last updated 2021-04-14 12:14:47 UTC
+Last updated 2021-04-18 04:35:13 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
