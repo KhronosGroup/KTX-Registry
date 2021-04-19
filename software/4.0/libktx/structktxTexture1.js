@@ -1,0 +1,25 @@
+var structktxTexture1 =
+[
+    [ "ktxTexture1_Create", "group__writer.html#ga761f4c933557aefa157900c076357c3e", null ],
+    [ "ktxTexture1_CreateFromMemory", "group__reader.html#ga1f289eb80601208b79561804d2ec0121", null ],
+    [ "ktxTexture1_CreateFromStdioStream", "group__reader.html#ga4557b9714b41e7c575d295b65e19ed12", null ],
+    [ "ktxTexture1_Destroy", "group__reader.html#gaa616363178ec37996459219a6925f87d", null ],
+    [ "ktxTexture1_GetDataSizeUncompressed", "group__reader.html#ga65cd751a3d1a6eed97cb19b7a88d736c", null ],
+    [ "ktxTexture1_GetImageOffset", "group__reader.html#ga2c471eb79f1ac62d63cae86ca6c519bf", null ],
+    [ "ktxTexture1_GetImageSize", "group__reader.html#gac1dc0703bc613180a92a8e1c5901dd50", null ],
+    [ "ktxTexture1_GetVkFormat", "group__ktx__vkloader.html#ga11fb504b749453140e04ca69711633d6", null ],
+    [ "ktxTexture1_GLUpload", "group__ktx__glloader.html#ga058297b66c5a7fd1f1bbaf718a887b9f", null ],
+    [ "ktxTexture1_IterateLevels", "group__reader.html#ga400a2581bf935beb6c0192a6e9844914", null ],
+    [ "ktxTexture1_IterateLoadLevelFaces", "group__reader.html#gab56e28f79781acf2933e36c21823c0df", null ],
+    [ "ktxTexture1_LoadImageData", "group__reader.html#ga7334feb062f32b62159cebd6e4b28d16", null ],
+    [ "ktxTexture1_VkUpload", "group__ktx__vkloader.html#gac70d24bac4ac3b2586836439bbc6592a", null ],
+    [ "ktxTexture1_VkUploadEx", "group__ktx__vkloader.html#gad7840c1eeb618fa1a09fc5a02c07ce87", null ],
+    [ "ktxTexture1_WriteKTX2ToMemory", "group__writer.html#gadbc6058afa50d4db3efd738822e6296a", null ],
+    [ "ktxTexture1_WriteKTX2ToNamedFile", "group__writer.html#ga3009e876fb584268241a9ba7704e8557", null ],
+    [ "ktxTexture1_WriteKTX2ToStdioStream", "group__writer.html#gac31b3532ed02d8cd4a7b517d4d2ab6ef", null ],
+    [ "_private", "structktxTexture1.html#aab7ae8cc9202a464a367634f006964c6", null ],
+    [ "glBaseInternalformat", "structktxTexture1.html#a4f1f1752dafd1da10683a2a3a7b6479a", null ],
+    [ "glFormat", "structktxTexture1.html#a0baed8d3d343d1743aa2c4631ac6d82e", null ],
+    [ "glInternalformat", "structktxTexture1.html#a099ee63cda70e72a691c271d08e4128e", null ],
+    [ "glType", "structktxTexture1.html#a473ead099ab0c2ff82014c8c91b105b3", null ]
+];
