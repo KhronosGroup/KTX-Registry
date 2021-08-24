@@ -19,9 +19,9 @@ Interesting files in this repository include:
 
 ## Reserving KTX supercompressionScheme ids
 
-EGL enumerants are documented in ssid.xml . New ranges of ids can be
-allocated by proposing a pull request to master modifying this file, following the existing examples. Allocate ranges starting at the lowest free values available. Ranges are not officially allocated until your
-pull request is *accepted* into master. At that point you can use values
+Supercompression scheme enumerants are documented in ssid.xml . New ranges of ids can be
+allocated by proposing a pull request to main modifying this file, following the existing examples. Allocate ranges starting at the lowest free values available. Ranges are not officially allocated until your
+pull request is *accepted* into main. At that point you can use values
 from your assigned range for API extensions.
 
 
