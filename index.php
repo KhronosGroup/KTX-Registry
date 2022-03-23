@@ -21,9 +21,9 @@ include_once("../../assets/static_pages/khr_page_top.php");
     for dealing with the Data Format Descriptor part of KTX v2.0.</li>
 <li>The <a href="">Data Format Utilities</a> also for dealing with the Data
     Format Descriptor.</li>
-<li>The <a href="https://github.com/KhronosGroup/KTX-Specification/blob/master/formats.json">
-    JSON database (schema)</a> with mappings from Vulkan format enums to OpenGL, Direct3D
-    and Metal enums.</li>
+<li>The <a href="https://github.com/KhronosGroup/KTX-Specification/blob/master/formats.json">JSON database</a>
+    (<a href="https://github.com/KhronosGroup/KTX-Specification/blob/master/formats.schema.json">schema</a>)
+    with mappings from Vulkan format enums to OpenGL, Direct3D and Metal enums.</li>
 <li>The <a href="https://github.com/KhronosGroup/KTX-Specification/blob/master/generate_format_switches.rb">
     Switch-case generator</a> that produces 5 files with simple C-like case-return
     statements from the above mappings.</li>
