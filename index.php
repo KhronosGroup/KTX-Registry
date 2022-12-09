@@ -34,21 +34,26 @@ include_once("../../assets/static_pages/khr_page_top.php");
 <p> The current version of KTX is KTX v2.0. </p>
 
 <ul>
-<li><a href="specs/2.0/ktxspec_v2.html">KTX v2.0 specification</a> released
-    April 20th 2021.</li>
-<li><a href="specs/1.0/ktxspec_v1.html">KTX v1.0 specification</a> (updated
+<li><a href="specs/2.0/ktxspec.v2.html">KTX v2.0.1</a> released
+    December 9th 2022.</li>
+<li><a href="specs/1.0/ktxspec.v1.html">KTX v1.0</a> (updated
     March 20th 2021 with official logos).</li>
 </ul>
 
 <h4> KTX Fragment URI Specification</h4>
-The KTX Fragment URI specification describes the syntax for constructing URIs
-to address fragments of a KTX v2 file.
+
+<p>The KTX Fragment URI specification describes the syntax for constructing
+   URIs to address fragments of a KTX v2 file.</p>
 
 <ul>
-<li><a href="specs/ktx_frag.html">KTX Fragment URI</li>
+<li><a href="specs/2.0/ktx-frag.html">KTX Fragment URI 1.0.1</a> released
+    December 9th 2022.</li>
 </ul>
 
 <h6> Technical Notes and White Papers</h6>
+
+<p>See the <a href="https://www.khronos.org/ktx/">KTX Home Page</a> for
+   information about KTX and guides to using it.</p>
 
 <?php include_once("../../assets/static_pages/khr_page_bottom.php"); ?>
 </body>
