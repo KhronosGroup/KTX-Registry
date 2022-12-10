@@ -36,7 +36,7 @@ include_once("../../assets/static_pages/khr_page_top.php");
 <ul>
 <li><a href="specs/2.0/ktxspec.v2.html">KTX v2.0.1</a> released
     December 9th 2022.</li>
-<li><a href="specs/1.0/ktxspec.v1.html">KTX v1.0</a> (updated
+<li><a href="specs/1.0/ktxspec.v1.html">KTX v1.0.4</a> (updated
     March 20th 2021 with official logos).</li>
 </ul>
 
