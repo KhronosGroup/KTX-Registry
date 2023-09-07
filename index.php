@@ -4,16 +4,19 @@ $static_title = 'Khronos KTX Registry';
 include_once("../../assets/static_pages/khr_page_top.php");
 ?>
 
-<p> The KTX registry contains specifications of the core file format and registered
-    Khronos- and vendor-approved extensions adding supercompression schemes and
-    metadata keys. Vendors are strongly encouraged to register schemes and keys to avoid
-    conflicts. Registration is done through the
-    <a href="https://github.com/KhronosGroup/KTX-Registry/">KTX Registry
-    backing store</a> repo on GitHub.</p>
+<p> The KTX registry contains specifications of the core file format
+    and registered Khronos- and vendor-approved extensions adding
+    supercompression schemes and metadata keys. Vendors are strongly
+    encouraged to register schemes and keys to avoid conflicts.
+    Registration is done through the </a
+    href="https://github.com/KhronosGroup/KTX-Specification">KTX-Specification
+    source repository</a> on GitHub. See <a
+    href="specs/2.0/ktxspec.v2.html#registeringExtensions">Registering
+    Extensions</a> in the KTX specification.
 
-<p> There is currently no header file or other canonical machine readable description
-    for either KTX v1 or v2.</p>
- 
+<p> There is currently no header file or other canonical machine
+    readable description for either KTX v1 or v2.</p>
+
 <p> Implementers of readers and writers may find the following useful:</p>
 <ul>
 <li>The header file <a href="../dataformat/api/1.3/khr_df.h">khr_df.h</a> in the
@@ -34,8 +37,8 @@ include_once("../../assets/static_pages/khr_page_top.php");
 <p> The current version of KTX is KTX v2.0. </p>
 
 <ul>
-<li><a href="specs/2.0/ktxspec.v2.html">KTX v2.0.1</a> released
-    December 9th 2022.</li>
+<li><a href="specs/2.0/ktxspec.v2.html">KTX v2.0.2</a> released
+    September 7th 2023.</li>
 <li><a href="specs/1.0/ktxspec.v1.html">KTX v1.0.4</a> (updated
     March 20th 2021 with official logos).</li>
 </ul>

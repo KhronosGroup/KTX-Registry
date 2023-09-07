@@ -17,25 +17,14 @@ Interesting files in this repository include:
 * specs/2.0/ - specification for file format version 2.
 
 
-## Reserving KTX supercompressionScheme ids
+## Registering KTX Extensions
 
-Supercompression scheme enumerants are documented in ssid.xml . New ranges of ids can be
-allocated by proposing a pull request to main modifying this file, following the existing examples. Allocate ranges starting at the lowest free values available. Ranges are not officially allocated until your
-pull request is *accepted* into main. At that point you can use values
-from your assigned range for API extensions.
+Vendors can create their own supercompression schemes and metadata items. To avoid conflicts in the scheme id and metadata key name spaces, those doing so must register them with Khronos as described in [Registering Extensions](https://registry.khronos.org/KTX/specs/2.0/ktxspec.v2.html#registeringExtensions) in the specification.
 
-
-## Adding supercompressionScheme Specifications
-
-To be completed.
-
-## Reserving Metadata Keys
-
-To be completed.
-
-## Adding Metadata Specifications
-
-To be completed.
+Registration involves proposing pull-requests (PRs) against the default
+branch (currently main) of the
+[KTX-Specification](https://github.com/KhronosGroup/KTX-Specification) repository on GitHub. Most of the changes will be to the source file
+[ktxspec.adoc](https://github.com/KhronosGroup/KTX-Specification/blob/main/ktxspec.adoc).
 
 
 
