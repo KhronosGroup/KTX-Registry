@@ -37,8 +37,8 @@ include_once("../../assets/static_pages/khr_page_top.php");
 <p> The current version of KTX is KTX v2.0. </p>
 
 <ul>
-<li><a href="specs/2.0/ktxspec.v2.html">KTX v2.0.2</a> released
-    September 7th 2023.</li>
+<li><a href="specs/2.0/ktxspec.v2.html">KTX v2.0.3</a> released
+    February 15th 2024.</li>
 <li><a href="specs/1.0/ktxspec.v1.html">KTX v1.0.4</a> (updated
     March 20th 2021 with official logos).</li>
 </ul>
