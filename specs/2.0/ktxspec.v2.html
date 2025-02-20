@@ -782,8 +782,8 @@ table.dfdexample td, th {
 <h1>KTX File Format Specification</h1>
 <div class="details">
 <span id="author" class="author">Mark Callow</span><br>
-<span id="revnumber">version 2.0.3,</span>
-<span id="revdate">2024-02-20</span>
+<span id="revnumber">version 2.0.4,</span>
+<span id="revdate">2025-02-20</span>
 </div>
 </div>
 <div id="content">
@@ -793,7 +793,7 @@ table.dfdexample td, th {
 <p><strong>Format Version:</strong> 2.0</p>
 </div>
 <div class="paragraph lead">
-<p><strong>Document Revision:</strong> 3</p>
+<p><strong>Document Revision:</strong> 4</p>
 </div>
 <div class="paragraph lead">
 <p><strong>Editor:</strong> Mark Callow (Edgewise Consulting)</p>
@@ -929,6 +929,9 @@ significantly different file structure from version 1.</p>
 </div>
 <div class="paragraph">
 <p>Document Revision 3 approved by the 3D Formats WG Feb 14th, 2024.</p>
+</div>
+<div class="paragraph">
+<p>Document Revision 4 approved by the 3D Formats WG Feb 19th 2025.</p>
 </div>
 </div>
 </div>
@@ -1155,13 +1158,13 @@ alignment caused by <code>mipPadding</code>.
 <div id="levelImages" class="listingblock">
 <div class="title">levelImages Structure</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="c">align( lcm(texel_block_size, 4) ) mipPadding <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="prettyprint highlight"><code data-lang="c">align( lcm(texel_block_size, 4) ) mipPadding <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="2"></i><b>(2)</b>
 for each layer in max(1, layerCount)
    for each face in faceCount
-       for each z_slice_of_blocks in num_blocks_z <i class="conum" data-value="2"></i><b>(2)</b>
-           for each row_of_blocks in num_blocks_y <i class="conum" data-value="2"></i><b>(2)</b>
-               for each block in num_blocks_x <i class="conum" data-value="2"></i><b>(2)</b>
-                   Byte data[format_specific_number_of_bytes] <i class="conum" data-value="3"></i><b>(3)</b>
+       for each z_slice_of_blocks in num_blocks_z <i class="conum" data-value="3"></i><b>(3)</b>
+           for each row_of_blocks in num_blocks_y <i class="conum" data-value="3"></i><b>(3)</b>
+               for each block in num_blocks_x <i class="conum" data-value="3"></i><b>(3)</b>
+                   Byte data[format_specific_number_of_bytes] <i class="conum" data-value="4"></i><b>(4)</b>
                end
            end
        end
@@ -1173,14 +1176,18 @@ end</code></pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>See <a href="#_mippadding">Section 3.13.2, &#8220;mipPadding&#8221;</a>.</td>
+<td>\(\operatorname{lcm}\) is <em>least common multiple</em>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>See <a href="#levelImages_defs">the definitions</a> below.</td>
+<td>See <a href="#_mippadding">Section 3.13.2, &#8220;mipPadding&#8221;</a>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>See <a href="#levelImages_defs">the definitions</a> below.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
 <td>Rows of uncompressed texture images must be tightly packed,
 equivalent to a <code>GL_UNPACK_ALIGNMENT</code> of 1.</td>
 </tr>
@@ -1191,33 +1198,35 @@ equivalent to a <code>GL_UNPACK_ALIGNMENT</code> of 1.</td>
 </div>
 <div class="stemblock">
 <div class="content">
-\[num\_blocks\_z = \max\left(1, \left\lceil{\frac{\left\lfloor{{pixelDepth}*{2^{-p}}}\right\rfloor}{block\_depth}}\right\rceil\right)\]
+\[\textit{num_blocks_z} = \max\left(1, \left\lceil{\frac{\left\lfloor{{\texttt{pixelDepth}}*{2^{-p}}}\right\rfloor}{\textit{block_depth}}}\right\rceil\right)\]
 </div>
 </div>
 <div class="stemblock">
 <div class="content">
-\[num\_blocks\_y = \max\left(1, \left\lceil{\frac{\left\lfloor{{pixelHeight}*{2^{-p}}}\right\rfloor}{block\_height}}\right\rceil\right)\]
+\[\textit{num_blocks_y} = \max\left(1, \left\lceil{\frac{\left\lfloor{{\texttt{pixelHeight}}*{2^{-p}}}\right\rfloor}{\textit{block_height}}}\right\rceil\right)\]
 </div>
 </div>
 <div class="stemblock">
 <div class="content">
-\[num\_blocks\_x = \max\left(1, \left\lceil{\frac{\left\lfloor{{pixelWidth}*{2^{-p}}}\right\rfloor}{block\_width}}\right\rceil\right)\]
+\[\textit{num_blocks_x} = \max\left(1, \left\lceil{\frac{\left\lfloor{{\texttt{pixelWidth}}*{2^{-p}}}\right\rfloor}{\textit{block_width}}}\right\rceil\right)\]
 </div>
 </div>
 <div class="paragraph">
-<p>where <em>p</em> is the level index (see <a href="#_levelcount">Section 3.7, &#8220;levelCount&#8221;</a>) and <em>block_depth</em>,
-<em>block_height</em> and <em>block_width</em> are <code>1</code> for uncompressed formats and
+<p>where \(p\) is the level index (see <a href="#_levelcount">Section 3.7, &#8220;levelCount&#8221;</a>) and
+\(\textit{block_depth}\), \(\textit{block_height}\) and
+\(\textit{block_width}\) are \(1\) for uncompressed formats and
 the block size in that dimension for block compressed formats as given
-in the format&#8217;s section of the Khronos Data Format specification <a href="#KDF13">[KDF13]</a>.</p>
+in the format&#8217;s section of the Khronos Data Format specification <a href="#KDF14">[KDF14]</a>.</p>
 </div>
 <div class="paragraph">
 <p>A <em>block</em> is a single pixel for uncompressed formats and
-\(block\_width \times block\_height \times block\_depth\)
+\(\textit{block_width} \times \textit{block_height} \times \textit{block_depth}\)
 pixels for block compressed formats.</p>
 </div>
 <div class="paragraph">
-<p>For formats whose Vulkan names have <code>_422_</code>, <em>block_depth</em> and <em>block_height</em>
-are <code>1</code>, and <em>block_width</em> is <code>2</code>.</p>
+<p>For formats whose Vulkan names have <code>_422_</code>, \(\textit{block_depth}\) and
+\(\textit{block_height}\) are \(1\), and \(\textit{block_width}\) is
+\(2\).</p>
 </div>
 </div>
 </div>
@@ -1289,33 +1298,12 @@ translation problem.</p>
 <h3 id="_vkformat">3.2. vkFormat</h3>
 <div class="paragraph">
 <p><code>vkFormat</code> specifies the image format using Vulkan <code>VkFormat</code> enum
-values. It can be any value defined in core Vulkan 1.2 <a href="#VULKAN12">[VULKAN12]</a>,
-future core versions or registered Vulkan extensions, except for
-values listed in <a href="#prohibitedFormats">Table 1, &#8220;Prohibited Formats&#8221;</a> and any <code>*<em>SCALED</em>*</code> or
-<code>*[2-9]PLANE*</code> formats added in future.
-Values defined by core Vulkan 1.2 are given in
-<a href="https://registry.khronos.org/vulkan/specs/1.2/html/vkspec.html#formats-definition">section 33.1
-<em>Format Definition</em></a> of <a href="#VULKAN12">[VULKAN12]</a>.  The list of registered
-extensions is provided in the <a href="https://registry.khronos.org/vulkan/#repos">Khronos Vulkan
-Registry</a>. A complete list of values defined by both core Vulkan
-1.2 and extensions can be found in
-<a href="https://registry.khronos.org/vulkan/specs/1.2-extensions/html/vkspec.html#formats-definition">section
-43.1 <em>Format Definition</em></a> of <a href="#VULKAN12EXT">[VULKAN12EXT]</a>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The section number given for <a href="#VULKAN12EXT">[VULKAN12EXT]</a> is as of this
-writing (Vulkan 1.2.175). It is subject to change as future extensions
-are added to the document but the link should remain valid as it is to
-an internal anchor.
-</td>
-</tr>
-</table>
+values. It can be any value defined in the Vulkan specification
+<a href="#VULKAN">[VULKAN]</a>, future core versions or registered Vulkan extensions,
+except for values listed in <a href="#prohibitedFormats">Table 1, &#8220;Prohibited Formats&#8221;</a> and any <code>*<em>SCALED</em>*</code>
+or <code>*[2-9]PLANE*</code> formats added in future. Values defined by the
+latest core Vulkan specification and registered extensions are given
+in <a href="https://docs.vulkan.org/spec/latest/chapters/formats.html">Formats</a> on <a href="#VULKAN-DOCS">[VULKAN-DOCS]</a>.</p>
 </div>
 <div class="paragraph">
 <p>Use of the value <code>VK_FORMAT_UNDEFINED</code> (0) is only permissible when
@@ -1330,14 +1318,15 @@ outlined within this specification and summarized in
 </div>
 <div class="paragraph">
 <p>The table in <a href="#formatMapping">Appendix B, <em>Mapping of <code>vkFormat</code> values</em></a> gives the mapping for all <code>VkFormat</code>
-enum values in Vulkan 1.2 core and the extensions known at the time
-of writing, to the equivalent OpenGL format (internal format, format
-and type values), DXGI_FORMAT and MTLPixelFormat. Applications must
-use these mappings. If <a href="#formatMapping">Appendix B, <em>Mapping of <code>vkFormat</code> values</em></a> does not have an entry for
-the value of <code>vkFormat</code> and a mapping to one or more of the other
-APIs exists then, even if the value is not <code>VK_FORMAT_UNDEFINED</code>,
-the KTX writer must provide that mapping using one or more of the
-metadata items described in <a href="#formatMappingMetadata">Section 5.3, &#8220;Format Mapping&#8221;</a>.</p>
+enum values in <a href="https://docs.vulkan.org/spec/latest/chapters/formats.html">Formats</a> at
+the time of writing, to the equivalent OpenGL format (internal
+format, format and type values), DXGI_FORMAT and MTLPixelFormat.
+Applications must use these mappings. If <a href="#formatMapping">Appendix B, <em>Mapping of <code>vkFormat</code> values</em></a> does not
+have an entry for the value of <code>vkFormat</code> and a mapping to one or
+more of the other APIs exists then, even if the value is not
+<code>VK_FORMAT_UNDEFINED</code>, the KTX writer must provide that mapping
+using one or more of the metadata items described in
+<a href="#formatMappingMetadata">Section 5.3, &#8220;Format Mapping&#8221;</a>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1729,7 +1718,8 @@ the MSBs.</p>
 </div>
 <div class="paragraph">
 <p><code>VK_FORMAT_S8_UINT</code>, <code>VK_FORMAT_D16_UNORM</code> and <code>VK_FORMAT_D32_SFLOAT</code>
-are defined as in <a href="#VULKAN12EXT">[VULKAN12EXT]</a>.</p>
+are defined as in <a href="https://docs.vulkan.org/spec/latest/chapters/formats.html">Formats</a>
+on <a href="#VULKAN-DOCS">[VULKAN-DOCS]</a>.</p>
 </div>
 </div>
 </div>
@@ -1740,16 +1730,17 @@ are defined as in <a href="#VULKAN12EXT">[VULKAN12EXT]</a>.</p>
 upload the data to a graphics API. When <code>typeSize</code> is greater than
 1, software on big-endian systems must endian convert all image
 data since it is little-endian. When format is <code>VK_FORMAT_UNDEFINED</code>,
-<code>typeSize</code> must equal 1. For formats whose Vulkan names have the
-suffix <code>_BLOCK</code> it must equal 1. For formats with the suffix <code>_PACKxx</code>
-or <code>_nPACKxx</code> it must equal the value of \(xx / 8\). For unpacked
-formats, except combined depth/stencil formats, it must equal the
-number of bytes needed for a single component which can be derived
-from the format name. E.g for <code>VK_FORMAT_R16G16B16_UNORM</code> it will
-be \(16 / 8\).  This means it will equal 1 for any format with
-8-bit components.  For <code>VK_FORMAT_D16_UNORM_S8_UINT</code>, using the
-layout defined in this specification, the value will be 2 and for
-the other combined depth/stencil formats the value will be 4.</p>
+<code>typeSize</code> must equal \(1\). For formats whose Vulkan names have
+the suffix <code>_BLOCK</code> it must equal \(1\). For formats with the
+suffix <code>_PACKxx</code> or <code>_nPACKxx</code> it must equal the value of
+\(\texttt{xx} / 8\).  For unpacked formats, except combined
+depth/stencil formats, it must equal the number of bytes needed for
+a single component which can be derived from the format name. E.g.
+for <code>VK_FORMAT_R16G16B16_UNORM</code> it will be \(16 / 8\).  This
+means it will equal \(1\) for any format with 8-bit components.
+For <code>VK_FORMAT_D16_UNORM_S8_UINT</code>, using the layout defined in this
+specification, the value will be \(2\) and for the other combined
+depth/stencil formats the value will be \(4\).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1882,23 +1873,24 @@ to signal which faces are present.</p>
 Level Array</em></a> and, by extension, the number of indices in the
 <code><a href="#_level_index">Level Index</a></code> array.  A KTX file does not need to
 contain a complete mipmap pyramid.  Mip level data is ordered from
-the level with the smallest size images, \(level_p\) to that
-with the largest size images, \(level_{base}\) where \(p =
-levelCount - 1\) and \(base = 0\).  \(level_p\) must not be
-greater than the maximum possible, \(level_{max}\), where</p>
+the level with the smallest size images, \(\textit{level}_p\)
+to that with the largest size images, \(\textit{level}_\textit{base}\)
+where \(p = \texttt{levelCount} - 1\) and \(\textit{base} =
+0\).  \(\textit{level}_p\) must not be greater than the maximum
+possible, \(\textit{level}_{M}\), where</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[max = \lfloor\log _2\left(\max\left(pixelWidth, pixelHeight, pixelDepth\right)\right)\rfloor\]
+\[M = \lfloor\log _2\left(\max\left(\texttt{pixelWidth}, \texttt{pixelHeight}, \texttt{pixelDepth}\right)\right)\rfloor\]
 </div>
 </div>
 <div class="paragraph">
-<p>\(levelCount = 1\) means that a file contains only the
+<p>\(\texttt{levelCount} = 1\) means that a file contains only the
 base level and the texture isn&#8217;t meant to have other levels. E.g.,
 this could be a LUT rather than a natural image.</p>
 </div>
 <div class="paragraph">
-<p>\(levelCount = 0\) is allowed, except for block-compressed
+<p>\(\texttt{levelCount} = 0\) is allowed, except for block-compressed
 formats, and means that a file contains only the base level and
 consumers, particularly loaders, should generate other levels if
 needed.</p>
@@ -2110,7 +2102,7 @@ described in in <a href="#basislz_gd">Appendix C, <em>BasisLZ Global Data</em></
 The <a href="#_data_format_descriptor"><em>Data Format Descriptor</em></a> must
 retain the pre-deflation color space information and indicate
 which color and alpha components are present.
-See <a href="#_dfd_for_supercompressed_data">Section 3.10.2.1, &#8220;DFD for Supercompressed Data&#8221;</a>.</p>
+See <a href="#_dfd_for_supercompressed_data">Section 3.10.3.1, &#8220;DFD for Supercompressed Data&#8221;</a>.</p>
 </li>
 <li>
 <p><code><a href="#_levelsp_uncompressedbytelength">levels[p].uncompressedByteLength</a></code>
@@ -2162,7 +2154,7 @@ verify it.</p>
 <p><a href="#_vkformat"><code>vkFormat</code></a> must retain the pre-deflation value.
 The <a href="#_data_format_descriptor"><em>Data Format Descriptor</em></a> must
 retain pre-deflation color space information and indicate which
-components are present. See <a href="#_dfd_for_supercompressed_data">Section 3.10.2.1, &#8220;DFD for Supercompressed Data&#8221;</a>.</p>
+components are present. See <a href="#_dfd_for_supercompressed_data">Section 3.10.3.1, &#8220;DFD for Supercompressed Data&#8221;</a>.</p>
 </li>
 </ul>
 </div>
@@ -2182,7 +2174,7 @@ specified in the <a href="#levelImages">levelImages structure</a>.</p>
 <p><a href="#_vkformat"><code>vkFormat</code></a> must retain the pre-deflation value.
 The <a href="#_data_format_descriptor"><em>Data Format Descriptor</em></a> must
 retain pre-deflation color space information and indicate which
-components are present. See <a href="#_dfd_for_supercompressed_data">Section 3.10.2.1, &#8220;DFD for Supercompressed Data&#8221;</a>.</p>
+components are present. See <a href="#_dfd_for_supercompressed_data">Section 3.10.3.1, &#8220;DFD for Supercompressed Data&#8221;</a>.</p>
 </li>
 </ul>
 </div>
@@ -2198,7 +2190,7 @@ components are present. See <a href="#_dfd_for_supercompressed_data">Section 3.1
 <p><a href="#_vkformat"><code>vkFormat</code></a> must retain the pre-deflation value.
 The <a href="#_data_format_descriptor"><em>Data Format Descriptor</em></a> must
 retain pre-deflation color space information and indicate which
-components are present. See <a href="#_dfd_for_supercompressed_data">Section 3.10.2.1, &#8220;DFD for Supercompressed Data&#8221;</a>.</p>
+components are present. See <a href="#_dfd_for_supercompressed_data">Section 3.10.3.1, &#8220;DFD for Supercompressed Data&#8221;</a>.</p>
 </li>
 </ul>
 </div>
@@ -2289,8 +2281,9 @@ value must be 0.</p>
 <p>An array, <code>levels</code>, giving the offset from the start of the file and
 compressed and uncompressed byte sizes of the image data for each
 mip level within the <a href="#_mip_level_array"><em>Mip Level Array</em></a> The array is ordered
-starting with \(level_{base}\) (the level with the largest size images)
-at index <em>0</em>. Image for \(level_p\) will be found at index <em>p</em>.</p>
+starting with \(\textit{level}_\textit{base}\) (the level with the largest size images)
+at index \(0\). The image for \(\textit{level}_p\) will be found at index
+\(p\).</p>
 </div>
 <div class="sect4">
 <h5 id="_levelsp_byteoffset">levels[p].byteOffset</h5>
@@ -2307,21 +2300,21 @@ for mip level <em>p</em>. It is the offset of the first byte after any
 </div>
 <div class="paragraph">
 <p><code>levels[p].byteLength</code> is the number of bytes of pixel data in
-LOD \(level_p\). This includes all layers, all z slices, all
+LOD \(\textit{level}_p\). This includes all layers, all z slices, all
 faces, all rows (or rows of blocks) and all pixels (or blocks) in
 each row for the mip level.</p>
 </div>
 <div class="paragraph">
 <p>The total size of the image data from
-\(levels[numLevels-1].byteOffset\) (i.e., after the first
-<code>mipPadding</code>, if any) until the end of the file is:</p>
+\(\texttt{levels}[\textit{num_levels}-1]\texttt{.byteOffset}\) (i.e.,
+after the first <code>mipPadding</code>, if any) until the end of the file is:</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[levels[0].byteLength +
-\sum_{p=1}^{numLevels-1}
-\left\lceil{\frac{levels[p].byteLength}{requiredAlignment}}\right\rceil
-\times requiredAlignment\]
+\[\texttt{levels}[0]\texttt{.byteLength} +
+\sum_{p=1}^{\textit{num_levels}-1}
+\left\lceil{\frac{\texttt{levels}[p]\texttt{.byteLength}}{\textit{required_alignment}}}\right\rceil
+\times \textit{required_alignment}\]
 </div>
 </div>
 <div class="paragraph">
@@ -2329,7 +2322,7 @@ each row for the mip level.</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[numLevels = \max\left(1, levelCount\right)\]
+\[\textit{num_levels} = \max\left(1, \texttt{levelCount}\right)\]
 </div>
 </div>
 <div class="paragraph">
@@ -2337,22 +2330,22 @@ each row for the mip level.</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[requiredAlignment =
+\[\textit{required_alignment} =
   \begin{cases}
-    lcm(texel\_block\_size, 4)      &amp; (\text{supercompressionScheme} = 0) \\
-    1                               &amp; (\text{supercompressionScheme} \neq 0)
+    \operatorname{lcm}(\textit{texel_block_size}, 4)      &amp; (\texttt{supercompressionScheme} = 0) \\
+    1                                      &amp; (\texttt{supercompressionScheme} \neq 0)
   \end{cases}\]
 </div>
 </div>
 <div class="paragraph">
-<p><em>texel_block_size</em> is defined in <a href="#_mippadding">Section 3.13.2, &#8220;mipPadding&#8221;</a>.</p>
+<p>\(\textit{texel_block_size}\) is defined in <a href="#_mippadding">Section 3.13.2, &#8220;mipPadding&#8221;</a>.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_levelsp_uncompressedbytelength">levels[p].uncompressedByteLength</h5>
 <div class="paragraph">
 <p><code>levels[p].uncompressedByteLength</code> is the number of bytes of pixel
-data in LOD \(level_p\) after reflation from supercompression.
+data in LOD \(\textit{level}_p\) after reflation from supercompression.
 This includes all layers, all z slices, all faces, all rows (or
 rows of blocks) and all pixels (or blocks) in each row for the mip
 level. When <code>supercompressionScheme == 0</code>,
@@ -2380,8 +2373,9 @@ following condition:</p>
 <p>Writers should be aware that block-compressed formats require the
 byte length of encoded levels be a multiple of the block size, i.e.
 the data is always a whole number of blocks regardless of the size
-in texels. The PVRTC1 format has extra restrictions. See Chapter 24
-<em>PVRTC Compressed Texture Image Formats</em> in <a href="#KDF13">[KDF13]</a>.</p>
+in texels. The PVRTC1 format has extra restrictions. See Chapter
+24 <a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#PVRTC"><em>PVRTC Compressed Texture Image Formats</em></a> in
+<a href="#KDF14">[KDF14]</a>.</p>
 </div>
 <div class="paragraph">
 <p>In versions of OpenGL &lt; 4.5 and in OpenGL ES, faces of non-array
@@ -2403,13 +2397,13 @@ to read the faces individually rather than as a block of size
 <div class="paragraph">
 <p>The Data Format Descriptor (<em>dfDescriptor</em>) describes the layout
 of the texel blocks in <code>data</code>.  The full specification for this is
-is Part 2, Chapters 2 to 11, of the <em>Khronos Data Format Specification</em>
-version 1.3 <a href="#KDF13">[KDF13]</a>.</p>
+is <a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#_formats_and_texel_access">Chapters 2 to
+11</a>, of the <em>Khronos Data Format Specification</em> <a href="#KDF14">[KDF14]</a>.</p>
 </div>
 <div class="paragraph">
 <p>The dfDescriptor is partially expanded in this specification in
 order to provide sufficient information for a KTX file to be parsed
-without having to refer to <a href="#KDF13">[KDF13]</a>. It consists of a total size
+without having to refer to <a href="#KDF14">[KDF14]</a>. It consists of a total size
 field and one or more Descriptor Blocks (<em>dfDescriptorBlock</em>)
 described below.</p>
 </div>
@@ -2458,12 +2452,13 @@ There will be no need for large tables to interpret format enums.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>If <a href="#_vkformat"><code>vkFormat</code></a> is not <code>VK_FORMAT_UNDEFINED</code>, the DFD&#8217;s
-<code>texelBlockDimension*</code>, <code>bytesPlane*</code> and sample information fields
-must match the format&#8217;s definition. The <code>colorModel</code> must be
-<code>KHR_DF_MODEL_RGBSDA</code>, <code>KHR_DF_MODEL_YUVSDA</code> or the matching block
-compressed color model listed in <a href="#KDF13">[KDF13]</a> Section 5.6 or its
-successors, currently <code>KHR_DF_MODEL_BC1A</code> to <code>KHR_DF_MODEL_UASTC</code>.
+<p>If <a href="#_vkformat"><code>vkFormat</code></a> is not <code>VK_FORMAT_UNDEFINED</code>, the
+DFD&#8217;s <code>texelBlockDimension*</code>, <code>bytesPlane*</code> and sample information
+fields must match the format&#8217;s definition. The <code>colorModel</code> must
+be <code>KHR_DF_MODEL_RGBSDA</code>, <code>KHR_DF_MODEL_YUVSDA</code> or the matching
+block compressed color model listed in <a href="#KDF14">[KDF14]</a>
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#CompressedFormatModels">Section 5.6</a> or its successors,
+currently <code>KHR_DF_MODEL_BC1A</code> to <code>KHR_DF_MODEL_UASTC</code>.
 <code>KHR_DF_MODEL_YUVSDA</code> should be used for all non-prohibited
 <code>*_422_*</code> formats.</p>
 </li>
@@ -2495,6 +2490,12 @@ formats and an HLG variant of that format exists,
 </ul>
 </div>
 </li>
+<li>
+<p>If <a href="#_vkformat"><code>vkFormat</code></a> is one of the <code>*_[SU]INT{,_*}</code> formats
+or one of the depth, stencil, or combined depth/stencil formats
+<code>colorPrimaries</code> must be <code>KHR_DF_PRIMARIES_UNSPECIFIED</code> and <code>transferFunction</code>
+must be <code>KHR_DF_TRANSFER_UNSPECIFIED</code>.</p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock note">
@@ -2524,6 +2525,21 @@ formats and an HLG variant of that format exists,
 </td>
 <td class="content">
 <div class="paragraph">
+<p>The <code>*ASTC_*_SRGB_BLOCK</code> formats are not variants of the
+<code>*ASTC_*_SFLOAT_BLOCK</code> formats.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
 <p>When <a href="#_vkformat"><code>vkFormat</code></a> is not one of the <code>*_SRGB{,_*}</code> formats and the
 transfer function is not linear, the KTX file may be much less portable due to
 limited hardware support of such inputs.</p>
@@ -2540,9 +2556,9 @@ limited hardware support of such inputs.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p><code>colorPrimaries</code> may be any of the available values since conversion
-of the selected primaries and white point to a display&#8217;s can be done
-simply with a 3x3 matrix multiply.</p>
+<p>Except for the formats for which it is specified above, <code>colorPrimaries</code> may
+be any of the available values since conversion of the selected primaries
+and white point to a display&#8217;s can be done simply with a 3x3 matrix multiply.</p>
 </div>
 <div class="paragraph">
 <p>Still, <code>KHR_DF_PRIMARIES_BT709</code> / <code>KHR_DF_PRIMARIES_SRGB</code> is recommended
@@ -2552,9 +2568,111 @@ for standard dynamic range, standard gamut images.</p>
 </tr>
 </table>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The specification allows free choice of <code>transferFunction</code> when
+<a href="#_vkformat"><code>vkFormat</code></a> is <code>VK_FORMAT_UNDEFINED</code>. When creating a
+texture using sRGB-encoded images use of <code>KHR_DF_TRANSFER_SRGB</code> is
+highly recommended.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_providing_additional_information">3.10.2. Providing additional information</h4>
+<h4 id="_use_of_transfer_functions">3.10.2. Use of Transfer Functions</h4>
+<div class="paragraph">
+<p>The majority of color spaces listed in Chapter 13
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#TRANSFER_CONVERSION"><em>Transfer functions</em></a>
+of <a href="#KDF14">[KDF14]</a>, with corresponding enumerators given in Section 5.8
+<em>transferFunction</em>, define only an electro-optical transfer function
+(EOTF) or only an opto-electrical transfer function (OETF) as
+indicated by aliases for the enumerator value. When a KTX file
+uses an enumerator with an EOTF alias</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>applications should use the EOTF to decode prior to sampling and
+filtering;</p>
+</li>
+<li>
+<p>mipmap generation should use the path EOTF → scaling → EOTF<sup>-1</sup>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The sRGB color space is one of these, defining only an EOTF.</p>
+</div>
+<div class="paragraph">
+<p>When a KTX file uses an enumerator with an OETF alias</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>applications should use the OETF<sup>-1</sup> to decode prior to sampling and
+filtering;</p>
+</li>
+<li>
+<p>mipmap generation should use the path OETF<sup>-1</sup> → scaling → OETF.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Some color spaces have a non-linear opto-optical transfer function
+(OOTF). That is they define an OETF and an EOTF and the EOTF is not
+the inverse of the OETF. These have two separate enumerators, one
+with an <code>OETF</code> suffix, the other with an <code>EOTF</code> suffix. When a KTX
+file has the enumerator with an explicit <code>_OETF</code> suffix</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the images are <em>scene referred</em> and intended to be decoded to
+scene-linear values;</p>
+</li>
+<li>
+<p>applications should use OETF<sup>-1</sup> to decode prior to sampling and
+filtering;</p>
+</li>
+<li>
+<p>mipmap generation should use the path OETF<sup>-1</sup> → scaling → OETF.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When a KTX file has the enumerator with an explicit <code>_EOTF</code> suffix</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the images are <em>display referred</em> and intended to be decoded to
+display-linear values;</p>
+</li>
+<li>
+<p>applications should use the EOTF (often derived from the OOTF) to
+decode prior to sampling and filtering;</p>
+</li>
+<li>
+<p>mipmap generation should use the path EOTF → scaling → EOTF<sup>-1</sup>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>OETF and EOTF formulae are given in Chapter 13
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#TRANSFER_CONVERSION"><em>Transfer functions</em></a> in
+<a href="#KDF14">[KDF14]</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_providing_additional_information">3.10.3. Providing additional information</h4>
 <div class="paragraph">
 <p>There are several cases where the <em>dfDescriptorBlock</em> is used to
 provide information beyond that given by <a href="#_vkformat"><code>vkFormat</code></a>.</p>
@@ -2571,15 +2689,15 @@ alpha components, otherwise it must be 0.</p>
 <dd>
 <p>The Universal ASTC image format (UASTC) is indicated by <code>colorModel</code>
 <code>KHR_DF_MODEL_UASTC</code> (= 166) together with <code>vkFormat</code> <code>VK_FORMAT_UNDEFINED</code>
-(= 0). The DFD must be as described in Section 5.6.14 <em>KHR_DF_MODEL_UASTC</em>
-of <a href="#KDF13">[KDF13]</a>. Images in this format must be transcoded to a
-GPU-supported block-compressed format or decoded to a GPU-supported
-uncompressed format before being uploaded to and sampled by a GPU.
-UASTC images can be supercompressed with Zstandard
-(<code>supercompressionScheme</code> = 2) with or without first conditioning
-the data with Rate-distortion Optimization. If supercompression is
-used, the DFD&#8217;s <code>bytesPlane[0-7]</code> must be set to 0 as described in
-the next subsection.</p>
+(= 0). The DFD must be as described in Section 5.6.14
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#KHR_DF_MODEL_UASTC"><em>KHR_DF_MODEL_UASTC</em></a> of
+<a href="#KDF14">[KDF14]</a>. Images in this format must be transcoded to a GPU-supported
+block-compressed format or decoded to a GPU-supported uncompressed
+format before being uploaded to and sampled by a GPU.  UASTC images
+can be supercompressed with Zstandard (<code>supercompressionScheme</code> =
+2) with or without first conditioning the data with Rate-distortion
+Optimization. If supercompression is used, the DFD must follow the
+rules described in the next subsection.</p>
 <div class="paragraph">
 <p>This color model provides channel Ids, e.g. <code>KHR_DF_CHANNEL_UASTC_RGB</code>
 that must be used to indicate the effective number of components
@@ -2654,8 +2772,9 @@ have shaders that understand this channel layout.</p>
 </table>
 </div>
 <div class="paragraph">
-<p>The bitstream of the UASTC data is described in Chapter 25 <em>UASTC
-Compressed Texture Image Format</em> of <a href="#KDF13">[KDF13]</a>.</p>
+<p>The bitstream of the UASTC data is described in Chapter 25
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#UASTC"><em>UASTC Compressed Texture Image Format</em></a> of
+<a href="#KDF14">[KDF14]</a>.</p>
 </div>
 </dd>
 </dl>
@@ -2666,11 +2785,12 @@ Compressed Texture Image Format</em> of <a href="#KDF13">[KDF13]</a>.</p>
 <dd>
 <p>The ETC1S image format is indicated by <code>colorModel</code> <code>KHR_DF_MODEL_ETC1S</code>
 (= 163) together with <code>vkFormat</code> <code>VK_FORMAT_UNDEFINED</code> (= 0). The
-DFD must be as described in Section 5.6.11 <em>KHR_DF_MODEL_ETC1S</em> of
-<a href="#KDF13">[KDF13]</a>. Because ETC1S does not support an alpha component, Basis
-Universal uses 2 <em>slices</em>, (<em>planes</em> in DFD-speak) to represent RGBA images.
-This color model provides the following channel ids that must be used to
-indicate the use of a slice.</p>
+DFD must be as described in Section 5.6.11
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#KHR_DF_MODEL_ETC1S"><em>KHR_DF_MODEL_ETC1S</em></a> of
+<a href="#KDF14">[KDF14]</a>. Because ETC1S does not support an alpha component, Basis
+Universal uses 2 <em>slices</em>, (<em>planes</em> in DFD-speak) to represent
+RGBA images.  This color model provides the following channel ids
+that must be used to indicate the use of a slice.</p>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
@@ -2770,12 +2890,13 @@ metadata prior to supercompressing an uncompressed KTX file.
 </table>
 </div>
 <div class="paragraph">
-<p>Images in this format are always supercompressed with BasisLZ and
-must be inflated and transcoded to a GPU-supported block-compressed
-format  or decoded to a GPU-supported uncompressed format before
-being uploaded to and sampled by a GPU. Because ETC1S images are
-supercompressed, the DFD&#8217;s <code>bytesPlane[0-7]</code> must be set to 0 as
-described in the next subsection.</p>
+<p>Images in this format must be supercompressed. A scheme designed
+for ETC1S streams such as BasisLZ must be used.  Images must be
+inflated and transcoded to a GPU-supported block-compressed format
+or decoded to a GPU-supported uncompressed format before being
+uploaded to and sampled by a GPU. Because ETC1S images are
+supercompressed, the DFD must follow the rules described in the
+next subsection.</p>
 </div>
 </dd>
 </dl>
@@ -2795,7 +2916,7 @@ can be determined from the DFD&#8217;s sample count.
 </div>
 <div class="paragraph">
 <p>The bitstream of the ETC1S data pre LZ deflation is described in
-Chapter 21.1 <em>ETC1S</em> of <a href="#KDF13">[KDF13]</a>.</p>
+Section 21.1 <a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#ETC1S"><em>ETC1S</em></a> of <a href="#KDF14">[KDF14]</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2804,7 +2925,7 @@ Chapter 21.1 <em>ETC1S</em> of <a href="#KDF13">[KDF13]</a>.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-since inflation and transcoding are typically combined in a
+Since inflation and transcoding are typically combined in a
 single operation, this bitstream is not visible to applications.
 </td>
 </tr>
@@ -2834,11 +2955,16 @@ have a sample with a channelType that indicates it is alpha.</p>
 <div class="paragraph">
 <p>When <code><a href="#_supercompressionscheme">supercompressionScheme</a></code> is not 0
 the <em>dfDescriptorBlock</em> must preserve the <code>colorModel</code>, <code>transferFunction</code>,
-<code>colorPrimaries</code>, <code>flags</code> and <code>texelBlockDimension[0-3]</code> of the
-pre-deflation images along with each sample&#8217;s <code>channelType</code>,
-<code>qualifiers</code>, <code>bitlength</code>, <code>bitOffset</code>, <code>sampleLower</code> and <code>sampleUpper</code>.
-<code>bytesPlane[0-7]</code> must be set to 0 to indicate an <em>unsized format</em>,
-as described in Section 5.19 <em>Unsized Formats</em> of <a href="#KDF13">[KDF13]</a>.</p>
+<code>colorPrimaries</code>, <code>flags</code>, <code>texelBlockDimension[0-3]</code> and
+<code>bytesPlane[0-7]</code> of the pre-deflation images along with each
+sample&#8217;s <code>channelType</code>, <code>qualifiers</code>, <code>bitlength</code>, <code>bitOffset</code>,
+<code>sampleLower</code>, and <code>sampleUpper</code>.</p>
+</div>
+<div class="paragraph">
+<p>BasisLZ supercompression works only on ETC1S blocks so, when it is
+used, <code>texelBlockDimension[01]</code> must be 3, <code>bytesPlane0</code> must
+be 8 and, if there is an alpha plane, <code>bytesPlane1</code> must also be
+8.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2851,6 +2977,23 @@ as described in Section 5.19 <em>Unsized Formats</em> of <a href="#KDF13">[KDF13
 <p>In the event that a block-compressed format is supercompressed the
 DFD will reflect the color model of the block-compressed format
 most of which have only one or two components.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Previous document revisions required  <code>bytesPlane[0-7]</code> to be set to
+0 to indicate an <em>unsized format</em> in accordance with Data Formats
+v1.3.1 and unpublished drafts of <a href="#KDF14">[KDF14]</a>. For the foreseeable future
+software must be able to handle such KTX files.</p>
 </div>
 </td>
 </tr>
@@ -2967,8 +3110,8 @@ unsigned 8-bit components.</p>
 <tr>
 <td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane3:</em></strong> 0</p></td>
 <td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane2:</em></strong> 0</p></td>
-<td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane1:</em></strong> 0</p></td>
-<td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane0:</em></strong> 0</p></td>
+<td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane1:</em></strong> 8</p></td>
+<td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane0:</em></strong> 8</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane7:</em></strong> 0</p></td>
@@ -3160,7 +3303,7 @@ before deflation, i.e. have 3 signed 8-bit components.</p>
 <td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane3:</em></strong> 0</p></td>
 <td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane2:</em></strong> 0</p></td>
 <td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane1:</em></strong> 0</p></td>
-<td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane0:</em></strong> 0</p></td>
+<td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane0:</em></strong> 3</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" colspan="8"><p class="tableblock"><strong><em>bytesPlane7:</em></strong> 0</p></td>
@@ -3278,9 +3421,9 @@ before deflation, i.e. have 3 signed 8-bit components.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_dfdtotalsize">3.10.3. dfdTotalSize</h4>
+<h4 id="_dfdtotalsize">3.10.4. dfdTotalSize</h4>
 <div class="paragraph">
-<p>Called <code>total_size</code> in <a href="#KDF13">[KDF13]</a>, <code>dfdTotalSize</code> indicates the total
+<p>Called <code>total_size</code> in <a href="#KDF14">[KDF14]</a>, <code>dfdTotalSize</code> indicates the total
 number of bytes in the <em>dfDescriptor</em> including <code>dfdTotalSize</code> and
 all <code>dfdBlock</code> fields.  <code><a href="#_dfdbytelength">dfdByteLength</a></code>
 must equal <code>dfdTotalSize</code>.</p>
@@ -3290,7 +3433,7 @@ must equal <code>dfdTotalSize</code>.</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[dfdTotalSize \neq kvdByteOffset - dfdByteOffset\]
+\[\texttt{dfdTotalSize} \neq \texttt{kvdByteOffset} - \texttt{dfdByteOffset}\]
 </div>
 </div>
 <div class="paragraph">
@@ -3305,8 +3448,9 @@ must equal <code>dfdTotalSize</code>.</p>
 <td class="content">
 <div class="paragraph">
 <p><code>dfdTotalSize</code> is included so that the KTX file contains a complete
-descriptor as defined in Chapter 4 &#8220;Khronos Data Format Descriptor&#8221;
-of <a href="#KDF13">[KDF13]</a>.</p>
+descriptor as defined in Chapter 4
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#dataformatdescriptor"><em>Khronos Data Format Descriptor</em></a>
+of <a href="#KDF14">[KDF14]</a>.</p>
 </div>
 </td>
 </tr>
@@ -3314,10 +3458,11 @@ of <a href="#KDF13">[KDF13]</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_dfdblock">3.10.4. dfdBlock</h4>
+<h4 id="_dfdblock">3.10.5. dfdBlock</h4>
 <div class="paragraph">
-<p>A <code>Descriptor Block</code> as defined in Section 4.1 of <a href="#KDF13">[KDF13]</a>. The
-high-order 16 bits of its first UInt32 are the <code>descriptor_type</code>
+<p>A <code>Descriptor Block</code> as defined in
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#descriptorblock">Section 4.1</a> of <a href="#KDF14">[KDF14]</a>. The
+high-order 15 bits of its first UInt32 are the <code>descriptor_type</code>
 and the high-order 16 bits of the second UInt32 are the
 <code>descriptor_block_size</code>.  <code>descriptor_block_size</code> is mandated to
 be a multiple of 4 which guarantees that the following
@@ -3334,8 +3479,8 @@ pairs is such that</p>
 <div class="stemblock">
 <div class="content">
 \[\sum_{i=0}^{n-1}
-\left\lceil{\frac{keyAndValueByteLength[i]}{4}}\right\rceil \times 4
-+ n \times 4 = kvdByteLength.\]
+\left\lceil{\frac{\texttt{keyAndValueByteLength}[i]}{4}}\right\rceil \times 4
++ n \times 4 = \texttt{kvdByteLength}\]
 </div>
 </div>
 <div class="paragraph">
@@ -3435,8 +3580,8 @@ in <a href="#basislz_gd">Appendix C, <em>BasisLZ Global Data</em></a>.</p>
 <h3 id="_mip_level_array">3.13. Mip Level Array</h3>
 <div class="paragraph">
 <p>Mip levels in the array are ordered from the level with the
-smallest size images, \(level_p\) to that with the largest size
-images, \(level_{base}\).</p>
+smallest size images, \(\textit{level}_p\) to that with the largest size
+images, \(\textit{level}_{base}\).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3473,16 +3618,15 @@ bytes are formatted as specified in the scheme documentation.</p>
 <div class="sect3">
 <h4 id="_mippadding">3.13.2. mipPadding</h4>
 <div class="paragraph">
-<p><code>mipPadding</code> is between 0 and \(lcm(texel\_block\_size, 4) -
-1\) bytes of value <code>0x00</code>. \(lcm\) is <em>least common multiple</em>.
-This is only required when
-<code><a href="#_supercompressionscheme">supercompressionScheme</a> == 0</code>.</p>
+<p><code>mipPadding</code> is between \(0\) and
+\(\operatorname{lcm}(\textit{texel_block_size}, 4) - 1\) bytes of value
+<code>0x00</code>. This is only required when <code><a href="#_supercompressionscheme">supercompressionScheme</a> == 0</code>.</p>
 </div>
 <div class="paragraph">
 <p><em>Texel block size</em> is as given for the <code>vkFormat</code> value in
-<a href="https://registry.khronos.org/vulkan/specs/1.2-extensions/html/vkspec.html#formats-compatibility">section
-40.1.6 <em>Format Compatibility Classes</em></a> of <a href="#VULKAN12EXT">[VULKAN12EXT]</a> for all
-<code>vkFormat</code> values except the following three:</p>
+<a href="https://docs.vulkan.org/spec/latest/chapters/formats.html#formats-compatibility-classes"><em>Format
+Compatibility Classes</em></a> of <a href="#VULKAN-DOCS">[VULKAN-DOCS]</a> for all <code>vkFormat</code> values
+except the following three:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -3653,19 +3797,21 @@ other combination of these parameters makes the KTX file invalid.</p>
 <p>For BasisLZ supercompressed data.</p>
 </li>
 <li>
-<p>For compressed color models in <a href="#KDF13">[KDF13]</a> or successors that do
-not have corresponding Vulkan formats. If the format corresponds
-to a format in DirectX or Metal then at least one format mapping
-metadata item is required. One such format exists now, the
-transcodable format with <code>colorModel</code> <code>KHR_DF_MODEL_UASTC</code> (=
-166). This does not correspond to a DirectX or Metal format.</p>
+<p>For any formats from any GPU APIs that do not have Vulkan equivalents.</p>
 </li>
 <li>
-<p>For formats from Metal or DirectX that do not have Vulkan
-equivalents. In this case at least one API&#8217;s format must be
-recorded in a format metadata item.</p>
+<p>For compressed color models in
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#CompressedFormatModels">Section 5.6</a> of <a href="#KDF14">[KDF14]</a> or
+successors that do not have corresponding Vulkan formats. One
+such format exists now, the transcodable format with colorModel
+<code>KHR_DF_MODEL_UASTC</code> (= 166).</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>If <code>VK_FORMAT_UNDEFINED</code> is used and the format is known to OpenGL,
+Direct3D or Metal APIs, the corresponding format metadata item
+should be present.</p>
 </div>
 </div>
 <div class="sect2">
@@ -3712,8 +3858,9 @@ hardware vendors and open source developers.</p>
 <p>A Vulkan VkFormat enum value.</p>
 </li>
 <li>
-<p>A color model value from the Khronos Data Format Specification
-<a href="#KDF13">[KDF13]</a>.</p>
+<p>A color model value from Sections
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#COLORMODEL">5.5</a> or
+<a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#CompressedFormatModels">5.6</a> of <a href="#KDF14">[KDF14]</a>.</p>
 </li>
 </ul>
 </div>
@@ -3724,7 +3871,7 @@ hardware vendors and open source developers.</p>
 <ul>
 <li>
 <p>Creating a new color model and format specification in the Khronos
-Data format specification <a href="#KDF13">[KDF13]</a> (as was done with UASTC).</p>
+Data format specification <a href="#KDF14">[KDF14]</a> (as was done with UASTC).</p>
 </li>
 <li>
 <p>Creating a new color model and format specification as above and
@@ -4345,7 +4492,8 @@ additional options to those previously used.</p>
 <p>By default, ASTC decoders produce pixel values with half-float
 precision for HDR and linear LDR blocks. KTX file writers may
 indicate that the data is compatible with more compact decoding
-modes (as defined in <a href="#VULKAN12EXT">[VULKAN12EXT]</a>, <code>VK_EXT_astc_decode_mode</code>)
+modes (as defined in
+<a href="https://docs.vulkan.org/spec/latest/appendices/extensions.html#VK_EXT_astc_decode_mode"><code>VK_EXT_astc_decode_mode</code></a>
 by using the key</p>
 </div>
 <div class="ulist">
@@ -4403,7 +4551,7 @@ UInt32 loopCount</code></pre>
 <div class="paragraph">
 <p><code>duration</code> is the number of <em>time units</em> per frame. <code>timescale</code> is the
 number of <em>time units</em> per 1 second. Thus the duration of a frame in
-seconds is \(duration / timescale\).</p>
+seconds is \(\texttt{duration} / \texttt{timescale}\).</p>
 </div>
 <div class="paragraph">
 <p><code>loopCount</code> indicates how many times to loop the animation. Values are:</p>
@@ -4734,7 +4882,7 @@ using primitive types would effectively mean repeating the
 definition of a descriptor block here which we do not want to do.</p>
 <div class="paragraph">
 <p><em>Resolved:</em> Show that <code>dfDescriptorBlock</code> is used as a shorthand for
-<a href="#KDF13">[KDF13]</a>'s <em>Descriptor block</em>.</p>
+<a href="#KDF14">[KDF14]</a>'s <em>Descriptor block</em>.</p>
 </div>
 </li>
 <li>
@@ -4912,8 +5060,8 @@ query this information.</p>
 <div class="ulist bibliography">
 <ul class="bibliography">
 <li>
-<p><a id="KDF13"></a>[KDF13] <a href="https://registry.khronos.org/DataFormat/specs/1.3/dataformat.1.3.html">Khronos
-Data Format Specification 1.3</a>.
+<p><a id="KDF14"></a>[KDF14] <a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html">Khronos
+Data Format Specification 1.4</a>.
 Andrew Garrard. The Khronos Group.</p>
 </li>
 <li>
@@ -4960,14 +5108,13 @@ Collet, M. Kucherawy, Ed. Internet Engineering Task Force (IETF),
 October 2018.</p>
 </li>
 <li>
-<p><a id="VULKAN12"></a>[VULKAN12] <a href="https://registry.khronos.org/vulkan/specs/1.2/html/vkspec.html">Vulkan<sup>®</sup>
-  1.2 - A Specification</a>.
-The Khronos Group, May 2020.</p>
+<p><a id="VULKAN"></a>[VULKAN] <a href="https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html">Vulkan<sup>®</sup> 1.n.p - A Specification</a>.
+The Khronos Group, February 2025.</p>
 </li>
 <li>
-<p><a id="VULKAN12EXT"></a>[VULKAN12EXT] <a href="https://registry.khronos.org/vulkan/specs/1.2-extensions/html/vkspec.html">Vulkan<sup>®</sup>
-1.2 - A Specification (with all registered Vulkan extensions)</a>.
-The Khronos Group, May 2020.</p>
+<p><a id="VULKAN-DOCS"></a>[VULKAN-DOCS] <a href="https://docs.vulkan.org">Vulkan<sup>®</sup> Documentation</a> site. An
+alternative view of the Vulkan specification.
+The Khronos Group, February 2025.</p>
 </li>
 </ul>
 </div>
@@ -4979,13 +5126,13 @@ The Khronos Group, May 2020.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>The Vulkan 1.2 references are living documents that are updated
-weekly with corrections, clarifications and, in the case of
-<a href="#VULKAN12EXT">[VULKAN12EXT]</a>, newly released extensions. References to the
-specifications do not imply that KTX header field values are limited
-solely to those in the referenced sections or tables. These values
-may be supplemented by extensions or new versions.  They also do
-not imply that all of the texture types can be loaded in any
+<p>The Vulkan specification is a living document that is updated weekly
+with corrections, clarifications and newly released extensions. The
+version as of this writing is 1.4.308. References to the specification
+do not imply that KTX header field values are limited solely to
+those in the referenced sections or tables of 1.4.308. These values
+may be supplemented by extensions or new core versions. They also
+do not imply that all of the texture types can be loaded in any
 particular version of OpenGL {,ES} or Vulkan.</p>
 </div>
 </td>
@@ -5012,11 +5159,10 @@ optimization</a>. The ryg blog, December 18th, 2018.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The KTX cubemap coordinate system in <a href="#_facecount">Section 3.6, &#8220;faceCount&#8221;</a> is directly
-compatible with the Vulkan and OpenGL cube samplers described by the
-face selection tables and equations for calculating (s, t) in
-<a href="https://registry.khronos.org/vulkan/specs/1.2-extensions/html/vkspec.html#_cube_map_face_selection_and_transformations">section
-16.5.3 Cube Map Face Selection and Transformations</a> of <a href="#VULKAN12">[VULKAN12]</a>
-and
+compatible with the Vulkan and OpenGL cube samplers described by
+the face selection tables and equations for calculating (s, t) in
+<a href="https://docs.vulkan.org/spec/latest/chapters/textures.html#_cube_map_face_selection_and_transformations">
+Cube Map Face Selection and Transformations</a> of <a href="#VULKAN-DOCS">[VULKAN-DOCS]</a> and
 <a href="https://registry.khronos.org/OpenGL/specs/gl/glspec46.core.pdf#nameddest=section-8.13">section
 8.13 Cube Map Texture Selection</a> of <a href="#OPENGL46">[OPENGL46]</a>.</p>
 </div>
@@ -5042,8 +5188,9 @@ passed to the cubemap sampler need to match the KTX cubemap coordinate
 system, that is left-handed with +Y up, +Z forward and +X on the right.</p>
 </div>
 <div class="paragraph">
-<p>If using OpenGL&#8217;s default object space, which is right-handed, you
-can transform your skybox cube coordinates to the necessary left-handed
+<p>A widely used object space in OpenGL is right-handed with +Y up,
++Z out of the screen and +X to the right. If using this, you can
+transform your skybox cube coordinates to the necessary left-handed
 system by multiplying either the X or the Z coordinate by -1. The
 former places the +Z face in the +Z direction so, if using OpenGL&#8217;s
 default view, that face will be behind you. The latter places the
@@ -5053,9 +5200,9 @@ mirror image of reality, a common error in samples found on the
 web.</p>
 </div>
 <div class="paragraph">
-<p>While Vulkan defaults to a left-handed coordinate system it has +Y
-down, with +Z out of the screen (behind the default view) and +X
-to the right. To transform these skybox coordinates to the cubemap&#8217;s
+<p>Vulkan apps often use a similar but left-handed object space with
++Y down, +Z out of the screen (behind the default view) and +X to
+the right.  To transform these skybox coordinates to the cubemap&#8217;s
 coordinate system, either</p>
 </div>
 <div class="ulist">
@@ -23783,7 +23930,7 @@ Some vendor-specific extensions (e.g. <code>GL_NV_depth_buffer_float</code>) def
 <p>It also contains an array of <em>image descriptors</em> with flags for each image and the offset and length within the mip level of the data for that image.</p>
 </div>
 <div class="paragraph">
-<p>The global data structure is designed to accommodate various transcodable block-compressed formats. The format in use is indicated by the <a href="#_data_format_descriptor">Data Format Descriptor</a>. Currently BasisLZ only supports one, <a href="#etc1s">ETC1S</a> (a subset of ETC1, see Section 21.1 of <a href="#KDF13">[KDF13]</a>).  ETC1S is a common subset of many GPU-native formats.</p>
+<p>The global data structure is designed to accommodate various transcodable block-compressed formats. The format in use is indicated by the <a href="#_data_format_descriptor">Data Format Descriptor</a>. Currently BasisLZ only supports one, <a href="#etc1s">ETC1S</a> (a subset of ETC1, see <a href="https://registry.khronos.org/DataFormat/specs/1.4/dataformat.1.4.html#ETC1S">Section 21.1</a> of <a href="#KDF14">[KDF14]</a>).  ETC1S is a common subset of many GPU-native formats.</p>
 </div>
 <div class="paragraph">
 <p>The bitstreams for endpoints, selectors, Huffman tables and the image
@@ -24894,7 +25041,7 @@ registration.</p>
 <p>Update status to ratified.</p>
 </li>
 <li>
-<p>Add <code>KTXwriteScParams</code>.</p>
+<p>Add <code>KTXwriterScParams</code>.</p>
 </li>
 <li>
 <p>Update logo.</p>
@@ -25080,6 +25227,41 @@ recently added to Vulkan.</p>
 </ul>
 </div></div></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2025-02-20</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Relax restrictions on
+<code>colorPrimaries</code> values.</p>
+</li>
+<li>
+<p>Fix bit size of descriptorType in
+dfdBlock.</p>
+</li>
+<li>
+<p>Do not use "default" in describing
+the object coordinate systems
+commonly used with OpenGL and
+Vulkan.</p>
+</li>
+<li>
+<p>Remove requirement for bytesPlane
+0 in DFDs of supercompressed
+files.</p>
+</li>
+<li>
+<p>Add rules for use of transfer
+functions.</p>
+</li>
+<li>
+<p>Update KDFS references to 1.4 and
+make the links active.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
 </tbody>
 </table>
 <h2 id="_acknowledgements" class="discrete">Acknowledgements</h2>
@@ -25103,8 +25285,8 @@ conflicts.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.3<br>
-Last updated 2024-02-20 07:01:52 UTC
+Version 2.0.4<br>
+Last updated 2025-02-20 00:33:49 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
@@ -25131,6 +25313,6 @@ MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
   })
 })
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
